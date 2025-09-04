@@ -1,0 +1,26 @@
+int gcd(int a, int b){
+    while(b){
+        a %= b;
+        int temp = a;
+        a = b;
+        b = temp;
+    }
+    return a;
+}
+
+string solve(int a, int b, int c) {
+    if(a == 0 && b == 0){
+        return c == 0 ? "YES" : "NO";
+    }
+    if(a == 0){
+        return (c == 0 || c == b) ? "YES" : "NO";
+    }
+    if(b == 0){
+        return (c == 0 || c == a) ? "YES" : "NO";
+    }
+    int max_capacity = max(a, b);
+    if(c > max_capacity){
+        return "NO";
+    }
+    return (c % gcd(a, b) == 0) ? "YES" : "NO";
+}
