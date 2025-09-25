@@ -1,0 +1,10 @@
+long strangeCounter(long t) {
+    long cycle_start = 1;   
+    long cycle_len = 3;
+    while (t > cycle_start + cycle_len - 1) {
+        cycle_start += cycle_len;
+        cycle_len *= 2; 
+    }
+    
+    return cycle_len - (t - cycle_start);
+}
