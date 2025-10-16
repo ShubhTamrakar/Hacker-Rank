@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int value;
+    int index;
+} Element;
+
+int compareAsc(const void *a, const void *b) {
+    return ((Element *)a)->value - ((Element *)b)->value;
+}
+
+int compareDesc(const void *a, const void *b) {
+    return ((Element *)b)->value - ((Element *)a)->value;
+}
+
+int countSwaps(int *arr, int n, int ascending) {
+    Element *elements = malloc(n * sizeof(Element));
+    for (int i = 0; i < n; i++) {
+        elements[i].value = arr[i];
+        elements[i].index = i;
+    }
+
+    if (ascending)
+        qsort(elements, n, sizeof(Element), compareAsc);
+    else
+        qsort(elements, n, sizeof(Element), compareDesc);
+
+    int *visited = calloc(n, sizeof(int));
+    int swaps = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (visited[i] || elements[i].index == i)
+            continue;
+
+        int cycle_size = 0;
+        int j = i;
+        while (!visited[j]) {
+            visited[j] = 1;
+            j = elements[j].index;
+            cycle_size++;
+        }
+
+        if (cycle_size > 1)
+            swaps += cycle_size - 1;
+    }
+
+    free(elements);
+    free(visited);
+    return swaps;
+}
+
+int lilysHomework(int arr_count, int *arr) {
+    int asc_swaps = countSwaps(arr, arr_count, 1);
+    int desc_swaps = countSwaps(arr, arr_count, 0);
+    return asc_swaps < desc_swaps ? asc_swaps : desc_swaps;
+}
