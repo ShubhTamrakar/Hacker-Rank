@@ -1,0 +1,31 @@
+#define MAX_MASK 1024  
+
+long winningLotteryTicket(int tickets_count, char** tickets) {
+    long maskCount[MAX_MASK] = {0};
+
+   
+    for (int i = 0; i < tickets_count; i++) {
+        int mask = 0;
+        for (int j = 0; tickets[i][j]; j++) {
+            mask |= 1 << (tickets[i][j] - '0');
+        }
+        maskCount[mask]++;
+    }
+
+    long totalPairs = 0;
+
+    
+    for (int i = 0; i < MAX_MASK; i++) {
+        for (int j = i; j < MAX_MASK; j++) {
+            if ((i | j) == 1023) { 
+                if (i == j) {
+                    totalPairs += (maskCount[i] * (maskCount[i] - 1)) / 2;
+                } else {
+                    totalPairs += maskCount[i] * maskCount[j];
+                }
+            }
+        }
+    }
+
+    return totalPairs;
+}
