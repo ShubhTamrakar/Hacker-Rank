@@ -1,0 +1,43 @@
+#!/bin/python3
+
+import math
+import os
+import sys
+
+#
+# Complete the 'counterGame' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts LONG_INTEGER n as parameter.
+#
+def counterGame(n):
+    cnt = 0
+    while n > 1:
+        # check if n is power of 2
+        if (n & (n - 1)) == 0:
+            n = n >> 1
+        else:
+            # find largest power of 2 less than n
+            k = int(math.log(n, 2))
+            num = 1 << k
+            n = n - num
+        cnt += 1
+
+    # decide winner
+    if cnt % 2 == 1:
+        return 'Louise'
+    else:
+        return 'Richard'
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    t = int(input().strip())
+
+    for t_itr in range(t):
+        n = int(input().strip())
+        result = counterGame(n)
+        fptr.write(result + '\n')
+
+    fptr.close()
