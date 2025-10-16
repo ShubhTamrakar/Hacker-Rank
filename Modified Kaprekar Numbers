@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+bool is_modified_kaprekar(long long n) {
+    if (n == 0) {
+        return false;
+    }
+    
+    long long sq = n * n;
+    
+    int d = 0;
+    long long temp_n = n;
+    while (temp_n > 0) {
+        temp_n /= 10;
+        d++;
+    }
+    
+    if (n == 1) {
+        return true;
+    }
+
+    long long power_of_10 = 1;
+    for (int i = 0; i < d; i++) {
+        power_of_10 *= 10;
+    }
+
+    long long r = sq % power_of_10;
+    long long l = sq / power_of_10;
+    
+    return (l + r) == n;
+}
+
+void kaprekarNumbers(int p, int q) {
+    bool found = false;
+    
+    for (long long i = p; i <= q; i++) {
+        if (is_modified_kaprekar(i)) {
+            printf("%lld ", i);
+            found = true;
+        }
+    }
+    
+    if (!found) {
+        printf("INVALID RANGE\n");
+    } else {
+        printf("\n");
+    }
+}
