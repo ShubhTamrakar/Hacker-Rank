@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int T;
+    scanf("%d", &T);
+
+    while (T--) {
+        int n, k;
+        scanf("%d %d", &n, &k);
+
+        int *a = (int *)malloc(n * sizeof(int));
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &a[i]);
+        }
+
+       
+        long long *mod = (long long *)calloc(k, sizeof(long long));
+        long long sum = 0, count = 0;
+        mod[0] = 1; 
+        for (int i = 0; i < n; i++) {
+            sum = (sum + a[i]) % k;
+            if (sum < 0) sum += k; 
+            count += mod[sum];
+            mod[sum]++;
+        }
+
+        printf("%lld\n", count);
+
+        free(a);
+        free(mod);
+    }
+
+    return 0;
+}
